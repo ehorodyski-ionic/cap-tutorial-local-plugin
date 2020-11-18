@@ -1,0 +1,7 @@
+{
+  "name": "cap-tutorial-local-plugin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
