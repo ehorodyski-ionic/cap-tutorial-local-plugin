@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Plugins } from '@capacitor/core';
 import './ExploreContainer.css';
 
 interface ContainerProps { }
 
 const ExploreContainer: React.FC<ContainerProps> = () => {
+  const [appVersion, setAppVersion] = useState<string>('Fetching...');
+
+  useEffect(() => {
+    const init = async () => {
+      const { AppVersion } = Plugins;
+      const { value } = await AppVersion.getAppVersion();
+      setAppVersion(value);
+    };
+    init();
+  }, []);
+
   return (
     <div className="container">
-      <strong>Ready to create an app?</strong>
-      <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <strong>Ready to see your app version?</strong>
+      <p>{appVersion}</p>
     </div>
   );
 };
