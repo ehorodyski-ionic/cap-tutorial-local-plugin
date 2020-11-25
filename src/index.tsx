@@ -1,7 +1,11 @@
+import { registerWebPlugin } from '@capacitor/core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { ScreenOrientationWeb } from './plugins/ScreenOrientationWeb';
 import * as serviceWorker from './serviceWorker';
+
+registerWebPlugin(new ScreenOrientationWeb());
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

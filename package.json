@@ -47,7 +47,17 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.2"
+    "@capacitor/cli": "2.4.2",
+    "@ionic/prettier-config": "~1.0.1",
+    "husky": "~4.3.0",
+    "prettier": "~2.2.0",
+    "pretty-quick": "~3.1.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "prettier": "@ionic/prettier-config",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }
