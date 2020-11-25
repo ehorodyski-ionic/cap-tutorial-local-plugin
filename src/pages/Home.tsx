@@ -1,13 +1,16 @@
 import { Plugins } from '@capacitor/core';
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonPage,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
+import { lockClosedOutline, lockOpenOutline } from 'ionicons/icons';
 import './Home.css';
 
 const Home: React.FC = () => {
@@ -17,6 +20,18 @@ const Home: React.FC = () => {
   const getOrientation = async () => {
     const { ScreenOrientation } = Plugins;
     return await ScreenOrientation.orientation();
+  };
+
+  const toggleOrientationLock = async () => {
+    const { ScreenOrientation } = Plugins;
+    if (isLocked) {
+      await ScreenOrientation.unlock();
+      setIsLocked(false);
+    } else {
+      const { type } = await getOrientation();
+      await ScreenOrientation.lock(type);
+      setIsLocked(true);
+    }
   };
 
   window.addEventListener('orientationchange', async () => {
@@ -37,6 +52,11 @@ const Home: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>eSignature</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={() => toggleOrientationLock()}>
+              <IonIcon icon={isLocked ? lockClosedOutline : lockOpenOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

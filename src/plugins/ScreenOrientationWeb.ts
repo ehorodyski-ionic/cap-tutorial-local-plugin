@@ -15,7 +15,13 @@ export class ScreenOrientationWeb
   }
 
   async lock(orientation: OrientationLockType): Promise<void> {
-    return window.screen.orientation.lock(orientation);
+    try {
+      await window.screen.orientation.lock(orientation);
+      return;
+    } catch (error) {
+      // Suppress any errors if we can't lock on the web.
+      return;
+    }
   }
 
   async unlock(): Promise<void> {
