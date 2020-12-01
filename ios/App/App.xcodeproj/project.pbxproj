@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07C68C152565946A00308792 /* AppVersionPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C68C142565946A00308792 /* AppVersionPlugin.swift */; };
-		07C68C1B256595CE00308792 /* AppVersionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C68C1A256595CE00308792 /* AppVersionPlugin.m */; };
+		07A34DFC256EE116006835C4 /* ScreenOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A34DFB256EE116006835C4 /* ScreenOrientation.swift */; };
+		07A34E25256EE4EF006835C4 /* ScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A34E24256EE4EF006835C4 /* ScreenOrientation.m */; };
+		07A34E2C256EE699006835C4 /* ScreenOrientationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A34E2B256EE699006835C4 /* ScreenOrientationUtilities.swift */; };
 		2FAD9763203C412B000D30F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
@@ -20,9 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		07C68C142565946A00308792 /* AppVersionPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionPlugin.swift; sourceTree = "<group>"; };
-		07C68C19256595CD00308792 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
-		07C68C1A256595CE00308792 /* AppVersionPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppVersionPlugin.m; sourceTree = "<group>"; };
+		07A34DFB256EE116006835C4 /* ScreenOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOrientation.swift; sourceTree = "<group>"; };
+		07A34E23256EE4EF006835C4 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
+		07A34E24256EE4EF006835C4 /* ScreenOrientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenOrientation.m; sourceTree = "<group>"; };
+		07A34E2B256EE699006835C4 /* ScreenOrientationUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOrientationUtilities.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,14 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		07C68C132565943900308792 /* AppVersion */ = {
+		07A34E14256EE3E8006835C4 /* ScreenOrientation */ = {
 			isa = PBXGroup;
 			children = (
-				07C68C142565946A00308792 /* AppVersionPlugin.swift */,
-				07C68C1A256595CE00308792 /* AppVersionPlugin.m */,
-				07C68C19256595CD00308792 /* App-Bridging-Header.h */,
+				07A34DFB256EE116006835C4 /* ScreenOrientation.swift */,
+				07A34E24256EE4EF006835C4 /* ScreenOrientation.m */,
+				07A34E23256EE4EF006835C4 /* App-Bridging-Header.h */,
+				07A34E2B256EE699006835C4 /* ScreenOrientationUtilities.swift */,
 			);
-			path = AppVersion;
+			path = ScreenOrientation;
 			sourceTree = "<group>";
 		};
 		27E2DDA53C4D2A4D1A88CE4A /* Frameworks */ = {
@@ -88,7 +91,7 @@
 		504EC3061FED79650016851F /* App */ = {
 			isa = PBXGroup;
 			children = (
-				07C68C132565943900308792 /* AppVersion */,
+				07A34E14256EE3E8006835C4 /* ScreenOrientation */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
@@ -223,9 +226,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07C68C1B256595CE00308792 /* AppVersionPlugin.m in Sources */,
+				07A34E2C256EE699006835C4 /* ScreenOrientationUtilities.swift in Sources */,
+				07A34E25256EE4EF006835C4 /* ScreenOrientation.m in Sources */,
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
-				07C68C152565946A00308792 /* AppVersionPlugin.swift in Sources */,
+				07A34DFC256EE116006835C4 /* ScreenOrientation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.starter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG USE_PUSH";
-				SWIFT_OBJC_BRIDGING_HEADER = "App/AppVersion/App-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "App/ScreenOrientation/App-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -394,7 +398,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.starter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = USE_PUSH;
-				SWIFT_OBJC_BRIDGING_HEADER = "App/AppVersion/App-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "App/ScreenOrientation/App-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

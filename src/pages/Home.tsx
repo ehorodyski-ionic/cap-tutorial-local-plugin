@@ -28,8 +28,7 @@ const Home: React.FC = () => {
       await ScreenOrientation.unlock();
       setIsLocked(false);
     } else {
-      const { type } = await getOrientation();
-      await ScreenOrientation.lock(type);
+      await ScreenOrientation.lock({ orientation: 'landscape-primary' });
       setIsLocked(true);
     }
   };
@@ -54,7 +53,8 @@ const Home: React.FC = () => {
           <IonTitle>eSignature</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={() => toggleOrientationLock()}>
-              <IonIcon icon={isLocked ? lockClosedOutline : lockOpenOutline} />
+              <IonIcon icon={isLocked ? lockOpenOutline : lockClosedOutline} />
+              {isLocked ? 'Unlock' : 'Lock'}
             </IonButton>
           </IonButtons>
         </IonToolbar>
