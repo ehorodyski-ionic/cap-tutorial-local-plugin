@@ -13,7 +13,7 @@ public class ScreenOrientation: CAPPlugin {
   
   @objc func orientation(_ call: CAPPluginCall) {
     let current: UIDeviceOrientation = UIDevice.current.orientation
-    let orientationType = ScreenOrientationUtilities.fromEnumToOrientationType(current)
+    let orientationType = OrientationUtilities.fromEnumToOrientationType(current)
     call.success(orientationType)
   }
     
@@ -24,14 +24,26 @@ public class ScreenOrientation: CAPPlugin {
     }
     
     DispatchQueue.main.async {
-      let deviceOrientation = ScreenOrientationUtilities.fromOrientationTypeToEnum(orientation)
+      let deviceOrientation = OrientationUtilities.fromOrientationTypeToEnum(orientation)
+      let orientationMask = OrientationUtilities.fromEnumToMask(deviceOrientation)
+      let lock = ["orientation": orientationMask]
+
+      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrientationLock"), object: self, userInfo: lock )
       UIDevice.current.setValue(deviceOrientation.rawValue, forKey: "orientation")
       UINavigationController.attemptRotationToDeviceOrientation()
+      
       call.success()
     }
   }
     
     @objc func unlock(_ call: CAPPluginCall) {
-      call.success()
+      DispatchQueue.main.async {
+        let unlock = ["orientation": UIInterfaceOrientationMask.all]
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrientationLock"), object: self, userInfo: unlock)
+        UINavigationController.attemptRotationToDeviceOrientation()
+        
+        call.success()
+      }
     }
 }

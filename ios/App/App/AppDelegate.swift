@@ -5,10 +5,31 @@ import Capacitor
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
+  
+  // New stuff
+  
+  var supportedOrientations = UIInterfaceOrientationMask.all
+  
+  func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    return supportedOrientations
+  }
+  
+  @objc func lockOrientation(_ notification: Notification) {
+    if let data = notification.userInfo as? [String: UIInterfaceOrientationMask] {
+      self.supportedOrientations = data["orientation"] ?? UIInterfaceOrientationMask.all
+    }
+  }
+  
+  //
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    
+    // New
+    NotificationCenter.default.addObserver(self, selector: #selector(lockOrientation), name: NSNotification.Name(rawValue: "OrientationLock"), object: nil)
+    //
+    
     return true
   }
 
