@@ -1,5 +1,5 @@
 //
-//  OrientationPlugin.swift
+//  ScreenOrientation.swift
 //  App
 //
 //  Created by Eric Horodyski on 11/25/20.
