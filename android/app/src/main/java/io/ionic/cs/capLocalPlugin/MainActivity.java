@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package io.ionic.cs.capLocalPlugin;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import com.getcapacitor.Plugin;
 
 import java.util.ArrayList;
 
-import io.ionic.starter.plugins.ScreenOrientation;
+import io.ionic.cs.capLocalPlugin.plugins.ScreenOrientation;
 
 public class MainActivity extends BridgeActivity {
   @Override
