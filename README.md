@@ -4,11 +4,23 @@ Native functionality can be added to a Capacitor application by leveraging Capac
 
 This walkthrough is a step-by-step guide to building a Capacitor Plugin. We will start off with a blank Capacitor application, then add custom native code (also known as a local plugin), and finally turn it into a true reusable Capacitor Plugin.
 
-**Note:** Ionic Framework + React will be used to build the user interface of this application. If you are not familiar with React (or the Ionic Framework) that's OK! The concepts covered in this walkthrough are applicable to Capacitor applications leveraging any TypeScript-enabled web framework.
+If you would like to skip the walkthrough and dig directly into the completed source code, you can find it in the `complete` branch of this repository.
 
-# Objective
+## What are we building?
+
+Let's play pretend. You work for an insurance company, and your application lets users store e-signatures so they can sign documents digitally. The legal team noticed that users using the app in portrait mode have really poor quality signatures. They're wondering if there's a way to force users to have their device in landscape mode in order to capture a signature.
+
+Our plugin will implement **screen orientation** features to accomodate this request:
+
+1. The device's current **orientation** will be detected, with differing UI for portrait or landscape mode.
+2. Users will be given the option to rotate and **lock** their screen orientation to landscape mode.
+3. After a signature has been added, the app will **unlock** screen orientation rotation.
+
+We will not be building functionality to draw and capture signatures.
 
 ---
+
+**Note:** Ionic Framework + React will be used to build the user interface of this application. If you are not familiar with React (or the Ionic Framework) that's OK! The concepts covered in this walkthrough are applicable to Capacitor applications using any TypeScript-enabled web framework.
 
 A step by step walkthrough that shows full life cycle, creating the plugin in the existing project and then extracting into a true reusable plugin.
 
