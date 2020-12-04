@@ -22,4 +22,41 @@ We'll model our plugin's API after the web Screen Orientation API:
 
 TypeScript provides us with definitions for the `OrientationType` and `OrientationLockType` types, which is super convenient!
 
-Notice that our API doesn't provide an event to fire when the orientation changes. We'll hook into JavaScript's `orientationchange` event instead, which has [full support on mobile browsers](https://developer.mozilla.org/en-US/docs/Web/API/Window/orientationchange_event).
+There are a few notes about our `ScreenOrientation` API:
+
+1. The existing web API's method signature for `lock` is just a string value. We pass in an object with the property `orientation` so our native code can read it as a key-value value.
+2. Our plugin's API doesn't provide an event to fire when the orientation changes. We'll hook into JavaScript's `orientationchange` event instead, which has [full support on mobile browsers](https://developer.mozilla.org/en-US/docs/Web/API/Window/orientationchange_event).
+
+## Extending the `PluginRegistry`
+
+Within the TypeScript `@capacitor/core` module exists an interface called `PluginRegistry`. This interface provides typing information for all out-of-the-box Capacitor plugins that come bundled as part of creating a Capacitor application. If we want to provide TypeScript typing information for any local Capacitor plugins, it makes sense to extend this interface. Ultimately, extending the `PluginRegistry` will allow us to reference our plugin like so:
+
+```TypeScript
+import { Plugins } from '@capacitor/core';
+const { ScreenOrientation } = Plugins;
+const current = await ScreenOrientation.orientation();
+```
+
+Create a new subfolder `src/plugins`. In this subfolder, create a new file named `screen-orientation.ts`. This file will extend `PluginRegistry` and provide typing information for our plugin:
+
+**`src/plugins/screen-orientation.ts`**
+
+```TypeScript
+import "@capacitor/core";
+
+declare module "@capacitor/core" {
+  interface ScreenOrientationPlugin {
+    orientation(): Promise<{ type: OrientationType; angle: number }>;
+    lock(options: { orientation: OrientationLockType }): Promise<void>;
+    unlock(): Promise<void>;
+  }
+
+  interface PluginRegistry {
+    ScreenOrientation: ScreenOrientationPlugin;
+  }
+}
+```
+
+This block of code defines a new interface, `ScreenOrientationPlugin` (containing our plugin's API) and merges a new property `ScreenOrientation` into the existing `PluginRegistry` interface -- thereby extending the `@capacitor/core` module.
+
+With our plugin API defined, our next step is to make some calls to it [through our Capacitor application's user interface](docs/calling-plugin.md).
