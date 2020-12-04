@@ -1,12 +1,14 @@
-# Using the Plugin
+# Using the Plugin API
 
-## Adding the User Interface
+Before we work on implementing the `ScreenOrientation` plugin for each platform, let's build out the user interface to our e-signature requirement. This UI will make calls to our plugin so we can easily test as we build out implementations for each platform.
 
-Before we move onto writing implementations for the web, iOS, and Android platforms let's add some kind of user interface we can use to test out our plugin's functionality.
+## User Interface
 
-Since the focus of this walkthrough is building a Capacitor plugin and I arbitrarily chose the React flavor of the Ionic Framework to work with, I'll supply links to the finished `Home.tsx` and `Home.css` files below:
+Since the focus of this walkthrough is building a Capacitor plugin, not building an Ionic Framework application, let's take the finished versions of `src/pages/Home.tsx` and `src/pages/Home.css` and copy and paste their contents into your project:
 
-- [Home.tsx](src/pages/Home.tsx)
-- [Home.css](src/pages/Home.css)
+- [src/pages/Home.tsx](/src/pages/Home.tsx)
+- [src/pages/Home.css](/src/pages/Home.css)
 
-Take a look
+We'll review relevant portions of code from `Home.tsx` in the section below.
+
+## Calling the `ScreenOrientation` Plugin

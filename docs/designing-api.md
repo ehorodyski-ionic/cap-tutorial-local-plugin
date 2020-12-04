@@ -59,4 +59,4 @@ declare module "@capacitor/core" {
 
 This block of code defines a new interface, `ScreenOrientationPlugin` (containing our plugin's API) and merges a new property `ScreenOrientation` into the existing `PluginRegistry` interface -- thereby extending the `@capacitor/core` module.
 
-With our plugin API defined, our next step is to make some calls to it [through our Capacitor application's user interface](docs/calling-plugin.md).
+With our plugin API defined, our next step is to make some calls to it [through our Capacitor application's user interface](/docs/calling-plugin.md).
