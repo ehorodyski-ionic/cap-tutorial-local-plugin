@@ -20,7 +20,7 @@ We'll model our plugin's API after the web Screen Orientation API:
 | `lock`        | `{ orientation: OrientationLockType }` | `Promise<void>`                                    |
 | `unlock`      |                                        | `Promise<void>`                                    |
 
-TypeScript provides us with definitions for the `OrientationType` and `OrientationLockType` types, which is super convenient!
+TypeScript provides us with definitions for the `OrientationType` and `OrientationLockType` types, which is super convenient! Both types contain the following values, which we'll make use of: `portrait-primary`, `portrait-secondary` (upside down), `landscape-primary` and `landscape-secondary` (upside down).
 
 There are a few notes about our `ScreenOrientation` API:
 

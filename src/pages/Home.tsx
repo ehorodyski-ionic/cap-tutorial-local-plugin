@@ -1,7 +1,6 @@
 import { Plugins } from '@capacitor/core';
 import {
   IonButton,
-  IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
@@ -10,68 +9,72 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import { lockClosedOutline, lockOpenOutline } from 'ionicons/icons';
+import { checkmarkCircle, phoneLandscape } from 'ionicons/icons';
 import './Home.css';
 
 const Home: React.FC = () => {
-  const [orientation, setOrientation] = useState<string>('Fetching...');
-  const [isLocked, setIsLocked] = useState<boolean>(false);
+  const [currentOrientation, setCurrentOrientation] = useState<string>(
+    'Fetching...',
+  );
 
   const getOrientation = async () => {
     const { ScreenOrientation } = Plugins;
-    return await ScreenOrientation.orientation();
+    const { type } = await ScreenOrientation.orientation();
+    setCurrentOrientation(type);
   };
 
-  const toggleOrientationLock = async () => {
+  const lockOrientation = async () => {
     const { ScreenOrientation } = Plugins;
-    if (isLocked) {
-      await ScreenOrientation.unlock();
-      setIsLocked(false);
-    } else {
-      await ScreenOrientation.lock({ orientation: 'landscape-primary' });
-      setIsLocked(true);
-    }
+    await ScreenOrientation.lock({ orientation: 'landscape-primary' });
   };
 
-  window.addEventListener('orientationchange', async () => {
-    const { type } = await getOrientation();
-    setOrientation(type);
-  });
+  const unlockOrientation = async () => {
+    const { ScreenOrientation } = Plugins;
+    await ScreenOrientation.unlock();
+  };
+
+  window.addEventListener(
+    'orientationchange',
+    async () => await getOrientation(),
+  );
 
   useEffect(() => {
-    const init = async () => {
-      const { type } = await getOrientation();
-      setOrientation(type);
-    };
-    init();
+    (async () => {
+      await getOrientation();
+    })();
   }, []);
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>eSignature</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={() => toggleOrientationLock()}>
-              <IonIcon icon={isLocked ? lockOpenOutline : lockClosedOutline} />
-              {isLocked ? 'Unlock' : 'Lock'}
-            </IonButton>
-          </IonButtons>
+          <IonTitle>Add a New Signature</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {orientation.includes('portrait') && (
+        {currentOrientation.includes('portrait') && (
           <div className="incorrect-orientation">
-            Please {isLocked && 'unlock rotation and '}
-            turn your device to landscape mode in order to accurately capture
-            your signature.
+            <p>
+              Please turn your device to landscape mode so we can best capture
+              your signature.
+            </p>
+            <IonButton>
+              <IonIcon
+                icon={phoneLandscape}
+                onClick={() => lockOrientation()}
+              />
+              Rotate My Device
+            </IonButton>
           </div>
         )}
-        {orientation.includes('landscape') && (
+        {currentOrientation.includes('landscape') && (
           <div className="ion-padding esign">
             <span>Please add your signature below:</span>
             <div className="esign-pad" />
-            <IonButton expand="full">Add Signature</IonButton>
+            <IonButton expand="full" onClick={() => unlockOrientation()}>
+              <IonIcon icon={checkmarkCircle} />
+              Add Signature
+            </IonButton>
           </div>
         )}
       </IonContent>

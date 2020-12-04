@@ -1,10 +1,14 @@
+ion-icon {
+  padding-right: 0.25em;
+}
 .incorrect-orientation {
   display: flex;
   height: 100%;
-  align-items: center;
+  justify-content: center;
   padding: 1em;
   line-height: 1.4;
   text-align: center;
+  flex-direction: column;
 }
 
 .esign {
