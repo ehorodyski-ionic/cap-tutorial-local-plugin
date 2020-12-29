@@ -119,4 +119,4 @@ async unlock(): Promise<void> {
 
 It's time to test out our web implementation. I recommend using your browser's development tools to emulate a mobile device (such as Chrome's "Device Toolbar") in both portrait and landscape orientations. The "Rotate My Device" button won't actually function, as mentioned before there is poor desktop support for `window.screen.orientation.lock`, but you should be able to see the different UIs if you manually rotate the orientation using the developer tooling.
 
-Before we jump into implementing the iOS and Android platforms for our `ScreenOrientation` plugin, we'll take a detour to discuss the different types of [code abstraction](/docs/code-abstractions.md) that make sense to use when building out Capacitor plugins.
+Before writing code for our iOS and Android implementations, let's design the [code abstraction](/docs/code-abstractions.md) we want for the `ScreenOrientation` plugin.
