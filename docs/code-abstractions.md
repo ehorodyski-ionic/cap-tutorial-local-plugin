@@ -12,12 +12,12 @@ Point being, you should feel empowered as a developer to use the library of desi
 
 ### Where can I find examples of design patterns?
 
-Speaking developer-to-developer here, I gravitate towards the following resources for examples of design patterns and how to implement them:
+Speaking developer-to-developer, I gravitate towards the following resources for examples of design patterns and how to implement them:
 
 - [Head First Design Patterns (O'Reilly Publishing)](https://www.oreilly.com/library/view/head-first-design/0596007124/)
 - [Design Patterns (Refactoring Guru)](https://refactoring.guru/design-patterns)
 
-Personally speaking, I keep _Head First Design Patterns_ in my bookshelf and thumb through it when I need refreshers or am in the planning phases of projects (to disconnect from online distractions) and I'll browse Refactoring Guru when I'm head-down writing code.
+Personally speaking, I keep _Head First Design Patterns_ in my bookshelf and thumb through it when I need refreshers or am in the planning phases of projects (to disconnect from online distractions) and I'll browse _Refactoring Guru_ when I'm head-down writing code.
 
 ## Common Plugin Patterns
 
@@ -42,3 +42,17 @@ In it's simplest form, thin binding is just mapping one API to another. When usi
 - `DevicePlugin.swift` - Calls the concrete implementations and contains any plugin specific setup.
 
 The pairing of classes works well, should the native API implementation change no modification to the binding is required.
+
+### Domain-Based Abstraction
+
+Some plugin use-cases may require you to traverse multiple targeted subject areas (domains). Let's walk through an imaginary scenario:
+
+You work for a SaaS company that provides analytics, push notifications, crash reporting, and data syncing for mobile applications. Upper management mandates that a singular Capacitor plugin must be created that provides access to all product modules.
+
+Each one of those offerings touches different native APIs, and could be changed independently of one-another. Therefore, a logical code abstraction pattern would be to separate the plugin's code base by domain.
+
+## So, what does this tutorial use?
+
+As we build out the `ScreenOrientation` plugin we will make use of thin binding. Without spoiling too much it's very straight-forward and simple to natively modify orientation; applying any other pattern doesn't make much sense here.
+
+Let's put theory to practice by writing the [iOS platform implementation](/docs/native-ios.md) of the plugin first.
