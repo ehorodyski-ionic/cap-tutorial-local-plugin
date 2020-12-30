@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070E4A16259D245600B52353 /* ScreenOrientationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070E4A15259D245600B52353 /* ScreenOrientationPlugin.swift */; };
+		070E4A1A259D2AC900B52353 /* ScreenOrientationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 070E4A19259D2AC900B52353 /* ScreenOrientationPlugin.m */; };
 		07A34DFC256EE116006835C4 /* ScreenOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A34DFB256EE116006835C4 /* ScreenOrientation.swift */; };
 		07A34E25256EE4EF006835C4 /* ScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A34E24256EE4EF006835C4 /* ScreenOrientation.m */; };
 		07A34E2C256EE699006835C4 /* OrientationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A34E2B256EE699006835C4 /* OrientationUtilities.swift */; };
@@ -21,8 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		070E4A15259D245600B52353 /* ScreenOrientationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOrientationPlugin.swift; sourceTree = "<group>"; };
+		070E4A19259D2AC900B52353 /* ScreenOrientationPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenOrientationPlugin.m; sourceTree = "<group>"; };
+		070E4A1C259D2AE600B52353 /* App-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
 		07A34DFB256EE116006835C4 /* ScreenOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOrientation.swift; sourceTree = "<group>"; };
-		07A34E23256EE4EF006835C4 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
 		07A34E24256EE4EF006835C4 /* ScreenOrientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenOrientation.m; sourceTree = "<group>"; };
 		07A34E2B256EE699006835C4 /* OrientationUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationUtilities.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
@@ -51,12 +55,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		070E4A13259D224E00B52353 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				070E4A14259D225A00B52353 /* screen-orientation */,
+			);
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		070E4A14259D225A00B52353 /* screen-orientation */ = {
+			isa = PBXGroup;
+			children = (
+				070E4A1C259D2AE600B52353 /* App-Bridging-Header.h */,
+				070E4A15259D245600B52353 /* ScreenOrientationPlugin.swift */,
+				070E4A19259D2AC900B52353 /* ScreenOrientationPlugin.m */,
+			);
+			path = "screen-orientation";
+			sourceTree = "<group>";
+		};
 		07A34E14256EE3E8006835C4 /* ScreenOrientation */ = {
 			isa = PBXGroup;
 			children = (
 				07A34DFB256EE116006835C4 /* ScreenOrientation.swift */,
 				07A34E24256EE4EF006835C4 /* ScreenOrientation.m */,
-				07A34E23256EE4EF006835C4 /* App-Bridging-Header.h */,
 				07A34E2B256EE699006835C4 /* OrientationUtilities.swift */,
 			);
 			path = ScreenOrientation;
@@ -91,6 +112,7 @@
 		504EC3061FED79650016851F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				070E4A13259D224E00B52353 /* plugins */,
 				07A34E14256EE3E8006835C4 /* ScreenOrientation */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
@@ -230,6 +252,8 @@
 				07A34E25256EE4EF006835C4 /* ScreenOrientation.m in Sources */,
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
 				07A34DFC256EE116006835C4 /* ScreenOrientation.swift in Sources */,
+				070E4A16259D245600B52353 /* ScreenOrientationPlugin.swift in Sources */,
+				070E4A1A259D2AC900B52353 /* ScreenOrientationPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

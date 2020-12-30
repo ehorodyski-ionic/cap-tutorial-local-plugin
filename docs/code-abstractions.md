@@ -1,6 +1,8 @@
 # Code Abstraction Patterns
 
-Before we officially cross over from web to native mobile development it would be beneficial to review some common Capacitor plugin code abstractions and pick an initial pattern to follow.
+Depending on the complexity of a Capacitor plugin, one could fairly scope it as it's own software project; or even two if the requirement(s) of the plugin are met in vastly different ways in iOS vs. Android!
+
+Therefore, it would be beneficial to review some common Capacitor plugin code abstractions and pick and initial pattern to follow.
 
 ## Intro to Design Patterns
 
@@ -55,4 +57,4 @@ Each one of those offerings touches different native APIs, and could be changed 
 
 As we build out the `ScreenOrientation` plugin we will make use of thin binding. Without spoiling too much it's very straight-forward and simple to natively modify orientation; applying any other pattern doesn't make much sense here.
 
-Let's put theory to practice by writing the [iOS platform implementation](/docs/native-ios.md) of the plugin first.
+Now that we know how we want to abstract our native code we can start writing it. Our next step: [ the iOS implementation](/docs/native-ios.md).
