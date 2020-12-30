@@ -76,4 +76,4 @@ const unlockOrientation = async () => {
 
 The rest of the code in `Home.tsx` and `Home.css` is purely cosmetic; we don't need to dig deep into that.
 
-With this complete, we can move onto the [first platform implementation: the web](/docs/web-implementation.md).
+Now that we have a user interface that will call our plugin API we can start implementing the plugin's code! Let's target the web first in our next step: [The Web Implementation](/docs/web-implementation.md).

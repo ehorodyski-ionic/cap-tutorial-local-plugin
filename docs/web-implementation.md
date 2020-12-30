@@ -119,4 +119,4 @@ async unlock(): Promise<void> {
 
 It's time to test out our web implementation. I recommend using your browser's development tools to emulate a mobile device (such as Chrome's "Device Toolbar") in both portrait and landscape orientations. The "Rotate My Device" button won't actually function, as mentioned before there is poor desktop support for `window.screen.orientation.lock`, but you should be able to see the different UIs if you manually rotate the orientation using the developer tooling.
 
-Before writing code for our iOS and Android implementations, let's design the [code abstraction](/docs/code-abstractions.md) we want for the `ScreenOrientation` plugin.
+One platform down, two to go! I know you are excited to start writing native iOS and Android code but it would be a diservice if we didn't consider _how_ we plan on patterning and abstracting native code. Let's review some patterns in the next step: [Code Abstraction Patterns](/docs/code-abstractions.md).
