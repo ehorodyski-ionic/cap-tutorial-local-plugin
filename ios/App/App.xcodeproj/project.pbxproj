@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		070E4A16259D245600B52353 /* ScreenOrientationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070E4A15259D245600B52353 /* ScreenOrientationPlugin.swift */; };
-		070E4A1A259D2AC900B52353 /* ScreenOrientationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 070E4A19259D2AC900B52353 /* ScreenOrientationPlugin.m */; };
+		070E4A21259D2CBA00B52353 /* ScreenOrientationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 070E4A20259D2CBA00B52353 /* ScreenOrientationPlugin.m */; };
 		07A34DFC256EE116006835C4 /* ScreenOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A34DFB256EE116006835C4 /* ScreenOrientation.swift */; };
 		07A34E25256EE4EF006835C4 /* ScreenOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A34E24256EE4EF006835C4 /* ScreenOrientation.m */; };
 		07A34E2C256EE699006835C4 /* OrientationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A34E2B256EE699006835C4 /* OrientationUtilities.swift */; };
@@ -24,8 +24,7 @@
 
 /* Begin PBXFileReference section */
 		070E4A15259D245600B52353 /* ScreenOrientationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOrientationPlugin.swift; sourceTree = "<group>"; };
-		070E4A19259D2AC900B52353 /* ScreenOrientationPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenOrientationPlugin.m; sourceTree = "<group>"; };
-		070E4A1C259D2AE600B52353 /* App-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
+		070E4A20259D2CBA00B52353 /* ScreenOrientationPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenOrientationPlugin.m; sourceTree = "<group>"; };
 		07A34DFB256EE116006835C4 /* ScreenOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOrientation.swift; sourceTree = "<group>"; };
 		07A34E24256EE4EF006835C4 /* ScreenOrientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenOrientation.m; sourceTree = "<group>"; };
 		07A34E2B256EE699006835C4 /* OrientationUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationUtilities.swift; sourceTree = "<group>"; };
@@ -66,9 +65,8 @@
 		070E4A14259D225A00B52353 /* screen-orientation */ = {
 			isa = PBXGroup;
 			children = (
-				070E4A1C259D2AE600B52353 /* App-Bridging-Header.h */,
 				070E4A15259D245600B52353 /* ScreenOrientationPlugin.swift */,
-				070E4A19259D2AC900B52353 /* ScreenOrientationPlugin.m */,
+				070E4A20259D2CBA00B52353 /* ScreenOrientationPlugin.m */,
 			);
 			path = "screen-orientation";
 			sourceTree = "<group>";
@@ -253,7 +251,7 @@
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
 				07A34DFC256EE116006835C4 /* ScreenOrientation.swift in Sources */,
 				070E4A16259D245600B52353 /* ScreenOrientationPlugin.swift in Sources */,
-				070E4A1A259D2AC900B52353 /* ScreenOrientationPlugin.m in Sources */,
+				070E4A21259D2CBA00B52353 /* ScreenOrientationPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +399,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.cs.capLocalPlugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG USE_PUSH";
-				SWIFT_OBJC_BRIDGING_HEADER = "App/ScreenOrientation/App-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "App/plugins/screen-orientation/App-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -422,7 +420,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.cs.capLocalPlugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = USE_PUSH;
-				SWIFT_OBJC_BRIDGING_HEADER = "App/ScreenOrientation/App-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "App/plugins/screen-orientation/App-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

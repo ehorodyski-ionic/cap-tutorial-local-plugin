@@ -5,7 +5,6 @@
 //  Created by Eric Horodyski on 11/25/20.
 //
 
-import Foundation
 import Capacitor
 
 @objc(ScreenOrientation)

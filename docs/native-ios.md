@@ -15,18 +15,72 @@ For the iOS implementation, I followed the examples provided by the following li
 
 These examples are great, so let's reference them as we build out the iOS implementation of the plugin!
 
-## Bridging into Capacitor
+## Registering with Capacitor
 
-Open the Capacitor application in Xcode by running the following command:
+> **Note:** It's recommended to familiarize yourself with the [Capacitor - Custom Native iOS Code documentation](https://capacitorjs.com/docs/ios/custom-code) before continuing.
+
+The optimal way to write the iOS implementation of a Capacitor plugin is from within Xcode. Open up the Capacitor application in Xcode by running the following command:
 
 ```bash
 $ npx cap open ios
 ```
 
-Once you're in, look at the left panel of the Xcode project and expand the `App` icon on the left pane. Expand the `App` folder nested within. This is our iOS project, and where we're going to add our plugin code! Right-click the folder and select `New Group`. "New Group" is Xcode's terminology for folders -- it sounds odd to me.
+Once you are in, take a look at the left panel of the Xcode project and expand the **App** icon in the pane. Open the nested **App** folder inside of it. This is where the source code for our Capacitor app lives for an iOS project and where we are going to add our plugin code.
 
-Nevertheless, name the folder `plugins` and then add a "New Group" inside of it called `screen-orientation`. The path should look like this, starting from the top of the tree: `App/App/plugins/screen-orientation`. We are only going to build one plugin in this application, but it's a solid folder structure to follow in the event you want to add more plugins in the future, they are neatly organized and discoverable.
+For this tutorial, we are going to put all of our plugin code in the folder path:
 
-Add a new Swift file insde the `screen-orientation` folder and name it `ScreenOrientationPlugin.swift`. This file will contain all our plugin methods and bindings back to Capacitor. Next, create a new Objective-C file (`.m` extension) named `ScreenOrientationPlugin.m`. Make sure you use the `New File` dialog in Xcode to do this so you get prompted to create a Bridging Header, which you must do.
+```
+/App/App/plugins/screen-orientation
+```
 
-## Implementing the `ScreenOrientation` API
+This is a good folder structure to follow:
+
+1. It isolates local plugin code in a folder outside of the rest of the application's generated source code.
+2. It isolates each plugin's code within it's own folder in the event more plugins are to be added in the future.
+
+To create this folder structure, right-click the nested **App** folder and select **New Group** and name this folder `plugins`. Right-click on the new `plugins` folder and do the same to create the `screen-orientation` folder.
+
+Click the `screen-orienation` folder and in the menu bar click **File > New > File...** Select **Swift File** and name it `ScreenOrientationPlugin.swift`. Populate the file such that it matches the API we defined:
+
+```Swift
+//  ScreenOrientationPlugin.swift
+
+import Capacitor
+
+@objc(ScreenOrientationPlugin)
+public class ScreenOrientationPlugin: CAPPlugin {
+
+  @objc func orientation(_ call: CAPPluginCall) {
+    call.success()
+  }
+
+  @objc func lock(_ call: CAPPluginCall) {
+    call.success()
+  }
+
+  @objc func unlock(_ call: CAPPluginCall) {
+    call.success()
+  }
+
+}
+```
+
+Note the use of `@objc` decorators. These decorators are required to make sure that Capacitor's runtime can see the class and it's methods.
+
+### Objective-C Macro
+
+Next, create a `ScreenOrientationPlugin.m` file in Xcode the same way (and same folder) as was done for the Swift file. This time, choose **Objective-C** as the file type. When prompted by Xcode to create a Bridging Header, click **Create Bridging Header**.
+
+Add the following code into `ScreenOrientationPlugin.m`:
+
+```objc
+//  ScreenOrientationPlugin.m
+
+#import <Capacitor/Capacitor.h>
+
+CAP_PLUGIN(ScreenOrientationPlugin, "ScreenOrientation",
+  CAP_PLUGIN_METHOD(orientation, CAPPluginReturnPromise);
+  CAP_PLUGIN_METHOD(lock, CAPPluginReturnPromise);
+  CAP_PLUGIN_METHOD(unlock, CAPPluginReturnPromise);
+)
+```

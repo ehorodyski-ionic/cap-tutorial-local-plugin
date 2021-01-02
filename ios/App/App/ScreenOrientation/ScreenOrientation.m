@@ -7,7 +7,7 @@
 
 #import <Capacitor/Capacitor.h>
 
-CAP_PLUGIN(ScreenOrientation, "ScreenOrientation",
+CAP_PLUGIN(ScreenOrientation, "ScreenOrientation2",
     CAP_PLUGIN_METHOD(orientation, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(lock, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(unlock, CAPPluginReturnPromise);

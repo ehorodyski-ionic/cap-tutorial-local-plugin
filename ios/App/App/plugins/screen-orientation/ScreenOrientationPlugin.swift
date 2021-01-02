@@ -1,8 +1,20 @@
-//
 //  ScreenOrientationPlugin.swift
-//  App
-//
-//  Created by Eric Horodyski on 12/30/20.
-//
 
-import Foundation
+import Capacitor
+
+@objc(ScreenOrientationPlugin)
+public class ScreenOrientationPlugin: CAPPlugin {
+  
+  @objc func orientation(_ call: CAPPluginCall) {
+    call.success()
+  }
+  
+  @objc func lock(_ call: CAPPluginCall) {
+    call.success()
+  }
+  
+  @objc func unlock(_ call: CAPPluginCall) {
+    call.success()
+  }
+  
+}
