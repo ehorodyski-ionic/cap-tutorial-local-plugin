@@ -8,7 +8,7 @@
 import Capacitor
 
 @objc(ScreenOrientation)
-public class ScreenOrientation: CAPPlugin {
+public class ScreenOrientationOld: CAPPlugin {
   
   @objc func orientation(_ call: CAPPluginCall) {
     let current: UIDeviceOrientation = UIDevice.current.orientation

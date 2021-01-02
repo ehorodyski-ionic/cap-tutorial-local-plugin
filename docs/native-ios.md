@@ -51,15 +51,15 @@ import Capacitor
 public class ScreenOrientationPlugin: CAPPlugin {
 
   @objc func orientation(_ call: CAPPluginCall) {
-    call.success()
+    call.resolve()
   }
 
   @objc func lock(_ call: CAPPluginCall) {
-    call.success()
+    call.resolve()
   }
 
   @objc func unlock(_ call: CAPPluginCall) {
-    call.success()
+    call.resolve()
   }
 
 }
@@ -84,3 +84,39 @@ CAP_PLUGIN(ScreenOrientationPlugin, "ScreenOrientation",
   CAP_PLUGIN_METHOD(unlock, CAPPluginReturnPromise);
 )
 ```
+
+These Objective-C macros register your plugin with Capacitor, making `ScreenOrientationPlugin` and it's methods available to JavaScript. Whenever you add or remove methods that should be exposed to the web portion of your Capacitor project, you must update these macros as well.
+
+## Implementing the API
+
+Begin by creating a new Swift file in the `screen-orientation` folder named `ScreenOrientation.swift`. This will be our implementation file, where the bulk of the work will be performed.
+
+Start by creating a new class for this file: `ScreenOrientation`. Add the following code to `ScreenOrientation.swift`:
+
+```Swift
+//  ScreenOrientation.swift
+
+import Foundation
+import UIKit
+
+@objc public class ScreenOrientation: NSObject {
+
+}
+```
+
+Nothing too complex yet, just the creation of a Swift class with an `@objc` decorator and an import of the `UIKit` library which is needed to access `UIDeviceOrientation`. On the plugin side, we'll want to create an instance of the `ScreenOrientation` class as a private member. Add the following code to `ScreenOrientationPlugin.swift`:
+
+```Swift
+... snip ...
+@objc(ScreenOrientationPlugin)
+public class ScreenOrientationPlugin: CAPPlugin {
+
+  private let implementation = ScreenOrientation()
+
+  ... snip ...
+}
+```
+
+With the basic setup of thin-binding in place, the next few sections will focus on implementing a specific method from the plugin's API definition.
+
+### Getting the Current Orientation

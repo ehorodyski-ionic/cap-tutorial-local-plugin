@@ -5,16 +5,18 @@ import Capacitor
 @objc(ScreenOrientationPlugin)
 public class ScreenOrientationPlugin: CAPPlugin {
   
-  @objc func orientation(_ call: CAPPluginCall) {
-    call.success()
+  private let implementation = ScreenOrientation()
+  
+  @objc public func orientation(_ call: CAPPluginCall) {
+    call.resolve()
   }
   
-  @objc func lock(_ call: CAPPluginCall) {
-    call.success()
+  @objc public func lock(_ call: CAPPluginCall) {
+    call.resolve()
   }
   
-  @objc func unlock(_ call: CAPPluginCall) {
-    call.success()
+  @objc public func unlock(_ call: CAPPluginCall) {
+    call.resolve()
   }
   
 }
