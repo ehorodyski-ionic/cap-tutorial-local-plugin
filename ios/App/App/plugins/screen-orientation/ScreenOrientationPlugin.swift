@@ -8,7 +8,8 @@ public class ScreenOrientationPlugin: CAPPlugin {
   private let implementation = ScreenOrientation()
   
   @objc public func orientation(_ call: CAPPluginCall) {
-    call.resolve()
+    let currentOrientation = implementation.getCurrentOrientation()
+    call.resolve(currentOrientation)
   }
   
   @objc public func lock(_ call: CAPPluginCall) {

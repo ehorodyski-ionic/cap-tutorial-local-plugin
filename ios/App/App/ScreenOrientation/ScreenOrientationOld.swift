@@ -7,7 +7,7 @@
 
 import Capacitor
 
-@objc(ScreenOrientation)
+@objc(ScreenOrientationOld)
 public class ScreenOrientationOld: CAPPlugin {
   
   @objc func orientation(_ call: CAPPluginCall) {

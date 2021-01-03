@@ -107,16 +107,66 @@ import UIKit
 Nothing too complex yet, just the creation of a Swift class with an `@objc` decorator and an import of the `UIKit` library which is needed to access `UIDeviceOrientation`. On the plugin side, we'll want to create an instance of the `ScreenOrientation` class as a private member. Add the following code to `ScreenOrientationPlugin.swift`:
 
 ```Swift
-... snip ...
+...snip...
 @objc(ScreenOrientationPlugin)
 public class ScreenOrientationPlugin: CAPPlugin {
 
   private let implementation = ScreenOrientation()
 
-  ... snip ...
+  ...snip...
 }
 ```
 
 With the basic setup of thin-binding in place, the next few sections will focus on implementing a specific method from the plugin's API definition.
 
 ### Getting the Current Orientation
+
+Returning the device's current orientation consists of three steps:
+
+1. Obtaining the device's current orientation direction through the `UIDevice` object
+2. Mapping the current `UIDeviceOrientation` enumeration value to the a type of `{type: OrientationType; angle: number}`
+3. Returning the mapped value back to Capacitor
+
+Add the following method to the `ScreenOrientation` class in `ScreenOrientation.swift`:
+
+```Swift
+public func getCurrentOrientation() -> Dictionary<String, Any> {
+  let deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation
+
+  switch deviceOrientation {
+  case .landscapeRight:
+    return ["type": "landscape-secondary", "angle": -90]
+  case .landscapeLeft:
+    return ["type": "landscape-primary", "angle": 90]
+  case .portraitUpsideDown:
+    return ["type": "portrait-secondary", "angle": 180]
+  default:
+    // Case: .portrait
+    return ["type": "portrait-primary", "angle":  0]
+  }
+}
+```
+
+Unfortuantely, there is no way to obtain the orientation angle through the iOS APIs. That's OK, we can derive what those values should be by playing around with the [Screen Orientation Web API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/angle). Which is exactly what I did for you 😊
+
+Next, wire up the `orientation` method in `SwiftOrientationPlugin.swift` to call our implementation:
+
+```Swift
+...snip...
+
+  @objc public func orientation(_ call: CAPPluginCall) {
+    let currentOrientation = implementation.getCurrentOrientation()
+    call.resolve(currentOrientation)
+  }
+
+...snip...
+```
+
+Nice and concise...I love it! You've made it this far without running your application. That was intentional on my part as the plugin would break the app since we weren't returning anything for this method up until this point. Now that we have the first plugin the application calls implemented go ahead and run the app in Xcode, either through a simulator or a device. Once the app finishes loading, you should see the following logs printed to the **Console Window** in the bottom right portion of the main Xcode pane:
+
+```bash
+⚡️  To Native ->  ScreenOrientation orientation 111583311
+⚡️  TO JS {"angle":0,"type":"portrait-primary"}
+```
+
+If your simulator or device is in landscape mode the second line in the logs above will return values for the landscape case - naturally - but the focal point here is that our iOS implementation of `ScreenOrientation.orientation` is working! It's running our native iOS code and communicating back to Capacitor's JavaScript bridge! 🎉
