@@ -58,11 +58,8 @@ const Home: React.FC = () => {
               Please turn your device to landscape mode so we can best capture
               your signature.
             </p>
-            <IonButton>
-              <IonIcon
-                icon={phoneLandscape}
-                onClick={() => lockOrientation()}
-              />
+            <IonButton onClick={() => lockOrientation()}>
+              <IonIcon icon={phoneLandscape} />
               Rotate My Device
             </IonButton>
           </div>

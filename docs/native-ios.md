@@ -169,4 +169,32 @@ Nice and concise...I love it! You've made it this far without running your appli
 ⚡️  TO JS {"angle":0,"type":"portrait-primary"}
 ```
 
-If your simulator or device is in landscape mode the second line in the logs above will return values for the landscape case - naturally - but the focal point here is that our iOS implementation of `ScreenOrientation.orientation` is working! It's running our native iOS code and communicating back to Capacitor's JavaScript bridge! 🎉
+We've successfully bridged native iOS code into Capacitor's JavaScript layer! The exact values of the logs will be different for you. For example `111583311` is just an arbitrary ID given to the plugin's method call instance, and should the device/simulator not be in orientated where the notch is on top the values in the second line will correspond with the logic we implemented. Regardless, the focus here is that our iOS implementation of `ScreenOrientation.orientation` is working! 🎉
+
+### Locking an Orientation
+
+In order to lock the screen orientation of an iOS application a special `application` method must be added to `AppDelegate.swift`:
+
+```Swift
+func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
+```
+
+This method is used to programmatically tell the application which orientations are allowed for the application. Phrased differently, iOS allows you to programmatically place restrictions on which orientations the application supports.
+
+Let's go ahead and implement this method, creating a class-level variable that will hold the supported orientations mask value. Below the declaration of the `window` variable in `AppDelegate.swift` add the following code:
+
+```Swift
+...snip...
+var supportedOrientations = UIInterfaceOrientationMask.all
+
+func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+  return supportedOrientations
+}
+...snip...
+```
+
+The code above lets iOS know that our application supports the `UIInterfaceOrientationMask` according to the value held in `supportedOrientations` (which is defaulted to all orientations). If the value of `supportedOrientations` is changed, the application will respect the restriction put in place. So, when we call `ScreenOrientation.lock()` and `ScreenOrientation.unlock()` what we need to do is update the value of `supportedOrientations`.
+
+The next piece of the puzzle becomes how do we communicate from our plugin to the `AppDelegate`?
+
+#### Adding an Observer to `NotificationCenter`
