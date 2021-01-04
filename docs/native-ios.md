@@ -214,11 +214,11 @@ With that out of the way, let's implement locking a screen orientation! Our next
 It's always good practice to ensure that all required input parameters have been passed, and short-circuit if they haven't. To complete the method, we need to do the following:
 
 1. Map the `orientation` value into it's corresponding `UIInterfaceOrientation` and `UIInterfaceOrientationMask` values.
-2. Update `ScreenOrientationPlugin.supportedOrientations` value.
+2. Update the `ScreenOrientationPlugin.supportedOrientations` value.
 3. Set the "orientation" key on the iOS `UIDevice` object.
 4. Rotate the device to the locked orientation.
 
-Let's write a helper method inside our `ScreenOrientation` implementation class that will take the input parameter and return a key-value pair of the corresponding iOS enumeration values. Add the following method to `ScreenOrientation.swift`:
+Let's write a method inside our `ScreenOrientation` implementation class that will take the input parameter and return a key-value pair of the corresponding iOS enumeration values. Add the following method to `ScreenOrientation.swift`:
 
 ```Swift
  public func getOrientationEnumValues(_ orientation: String) -> Dictionary<String, Any> {
@@ -247,3 +247,53 @@ Let's write a helper method inside our `ScreenOrientation` implementation class 
     }
   }
 ```
+
+Now switch over to `ScreenOrientationPlugin.swift` to finish writing the `lock` method:
+
+```Swift
+@objc public func lock(_ call: CAPPluginCall) {
+  guard let lockedOrientation = call.getString("orientation") else {
+    call.reject("Input option 'orientation' must be provided.")
+    return
+  }
+
+  let orientationEnums = implementation.getOrientationEnumValues(lockedOrientation)
+  ScreenOrientationPlugin.supportedOrientations = orientationEnums["mask"] as! UIInterfaceOrientationMask
+
+  DispatchQueue.main.async {
+    UIDevice.current.setValue((orientationEnums["device"] as! UIDeviceOrientation).rawValue, forKey: "orientation")
+    UINavigationController.attemptRotationToDeviceOrientation()
+    call.resolve()
+  }
+}
+```
+
+I won't dig deep into the `DispatchQueue` in this tutorial, just know that it should be used when updating UI in the iOS native layer.
+
+### Unlocking Screen Orientations
+
+Restoring the end user's ability to change screen orientation is quite simple; essentially all we need to do is reverse the steps taken to lock it:
+
+1. Update the `ScreenOrientationPlugin.supportedOrientations` value.
+2. Rotate the device to the device's orientation.
+
+The major differences here are that there are no input parameters to guard against, and we don't need to set any values on `UIDevice`.
+
+Go ahead and update the `unlock` method in `ScreenOrientationPlugin.swift`:
+
+```Swift
+@objc public func unlock(_ call: CAPPluginCall) {
+  ScreenOrientationPlugin.supportedOrientations = UIInterfaceOrientationMask.all
+
+  DispatchQueue.main.async {
+    UINavigationController.attemptRotationToDeviceOrientation()
+    call.resolve()
+  }
+}
+```
+
+## Test it out!
+
+We covered a lot of ground since I last had you run the app. Let's take a breather and test out the plugin. Run the app (on device or simulator), and pretend you're one of the insurance company's customers looking to add an e-signature. Tap the button to lock the device in landscape mode, turn your device (or rotate the simulator), pretend signing the pad, press the "Add Signature" button and turn/rotate the device/simulator back into portrait mode. Our use case works!
+
+The `ScreenOrientation` plugin is now implemented for web and iOS. Two down, one to go! Naturally, our next step: [the Android implementation](/docs/native-android.md).

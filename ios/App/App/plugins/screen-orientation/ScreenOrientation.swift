@@ -25,8 +25,8 @@ import UIKit
     switch orientation {
     case "landscape-secondary":
       return [
-        "mask": UIInterfaceOrientationMask.landscapeRight,
-        "device": UIDeviceOrientation.landscapeRight
+        "mask": UIInterfaceOrientationMask.landscapeLeft,
+        "device": UIDeviceOrientation.landscapeLeft
       ]
     case "landscape-primary":
       return [

@@ -20,28 +20,24 @@ public class ScreenOrientationPlugin: CAPPlugin {
       call.reject("Input option 'orientation' must be provided.")
       return
     }
-    
-    DispatchQueue.main.async {
-      ScreenOrientationPlugin.supportedOrientations = UIInterfaceOrientationMask.landscapeRight
-      UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
-      UINavigationController.attemptRotationToDeviceOrientation()
-      call.resolve()
-    }
-    
-    
-    
-  }
   
-  @objc public func unlock(_ call: CAPPluginCall) {
+    let orientationEnums = implementation.getOrientationEnumValues(lockedOrientation)
+    ScreenOrientationPlugin.supportedOrientations = orientationEnums["mask"] as! UIInterfaceOrientationMask
+    
     DispatchQueue.main.async {
-      let unlock = ["orientation": UIInterfaceOrientationMask.all]
-      
-      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "OrientationLock"), object: self, userInfo: unlock)
+      UIDevice.current.setValue((orientationEnums["device"] as! UIDeviceOrientation).rawValue, forKey: "orientation")
       UINavigationController.attemptRotationToDeviceOrientation()
-      
       call.resolve()
     }
   }
   
+  @objc public func unlock(_ call: CAPPluginCall) {
+    ScreenOrientationPlugin.supportedOrientations = UIInterfaceOrientationMask.all
+    
+    DispatchQueue.main.async {
+      UINavigationController.attemptRotationToDeviceOrientation()
+      call.resolve()
+    }
+  }
   
 }

@@ -57,4 +57,4 @@ Each one of those offerings touches different native APIs, and could be changed 
 
 As we build out the `ScreenOrientation` plugin we will make use of thin binding. Without spoiling too much it's very straight-forward and simple to natively modify orientation; applying any other pattern doesn't make much sense here.
 
-Now that we know how we want to abstract our native code we can start writing it. Our next step: [ the iOS implementation](/docs/native-ios.md).
+Now that we know how we want to abstract our native code we can start writing it. Our next step: [the iOS implementation](/docs/native-ios.md).
