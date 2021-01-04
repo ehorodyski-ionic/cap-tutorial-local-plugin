@@ -50,15 +50,15 @@ import Capacitor
 @objc(ScreenOrientationPlugin)
 public class ScreenOrientationPlugin: CAPPlugin {
 
-  @objc func orientation(_ call: CAPPluginCall) {
+  @objc public func orientation(_ call: CAPPluginCall) {
     call.resolve()
   }
 
-  @objc func lock(_ call: CAPPluginCall) {
+  @objc public func lock(_ call: CAPPluginCall) {
     call.resolve()
   }
 
-  @objc func unlock(_ call: CAPPluginCall) {
+  @objc public func unlock(_ call: CAPPluginCall) {
     call.resolve()
   }
 
@@ -119,7 +119,7 @@ public class ScreenOrientationPlugin: CAPPlugin {
 
 With the basic setup of thin-binding in place, the next few sections will focus on implementing a specific method from the plugin's API definition.
 
-### Getting the Current Orientation
+### Getting the Current Screen Orientation
 
 Returning the device's current orientation consists of three steps:
 
@@ -152,14 +152,10 @@ Unfortuantely, there is no way to obtain the orientation angle through the iOS A
 Next, wire up the `orientation` method in `SwiftOrientationPlugin.swift` to call our implementation:
 
 ```Swift
-...snip...
-
-  @objc public func orientation(_ call: CAPPluginCall) {
-    let currentOrientation = implementation.getCurrentOrientation()
-    call.resolve(currentOrientation)
-  }
-
-...snip...
+@objc public func orientation(_ call: CAPPluginCall) {
+  let currentOrientation = implementation.getCurrentOrientation()
+  call.resolve(currentOrientation)
+}
 ```
 
 Nice and concise...I love it! You've made it this far without running your application. That was intentional on my part as the plugin would break the app since we weren't returning anything for this method up until this point. Now that we have the first plugin the application calls implemented go ahead and run the app in Xcode, either through a simulator or a device. Once the app finishes loading, you should see the following logs printed to the **Console Window** in the bottom right portion of the main Xcode pane:
@@ -171,30 +167,83 @@ Nice and concise...I love it! You've made it this far without running your appli
 
 We've successfully bridged native iOS code into Capacitor's JavaScript layer! The exact values of the logs will be different for you. For example `111583311` is just an arbitrary ID given to the plugin's method call instance, and should the device/simulator not be in orientated where the notch is on top the values in the second line will correspond with the logic we implemented. Regardless, the focus here is that our iOS implementation of `ScreenOrientation.orientation` is working! 🎉
 
-### Locking an Orientation
+### Locking the Screen Orientation
 
-In order to lock the screen orientation of an iOS application a special `application` method must be added to `AppDelegate.swift`:
+iOS provides a special method on the `UIApplicationDelegate` class (of which `AppDelegate` inherits) that allows developers the ability to programmatically set the application's supported orientations:
 
 ```Swift
 func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
 ```
 
-This method is used to programmatically tell the application which orientations are allowed for the application. Phrased differently, iOS allows you to programmatically place restrictions on which orientations the application supports.
+If we implement this method in our `AppDelegate.swift` file, we can return a variable that represents the allowed orientations. On lock, we would update the variable to the orientation mask value that matches what is passed in from `ScreenOrientation.lock()` and on unlock update to the orientation mask value that represents all available device orientations.
 
-Let's go ahead and implement this method, creating a class-level variable that will hold the supported orientations mask value. Below the declaration of the `window` variable in `AppDelegate.swift` add the following code:
+First, add a static member to `ScreenOrientationPlugin.swift`:
 
 ```Swift
 ...snip...
-var supportedOrientations = UIInterfaceOrientationMask.all
+@objc(ScreenOrientationPlugin)
+public class ScreenOrientationPlugin: CAPPlugin {
+  private let implementtion = ScreenOrientation()
 
-func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-  return supportedOrientations
+  public static var supportedOrientations = UIInterfaceOrientationMask.all
+  ...snip...
 }
-...snip...
 ```
 
-The code above lets iOS know that our application supports the `UIInterfaceOrientationMask` according to the value held in `supportedOrientations` (which is defaulted to all orientations). If the value of `supportedOrientations` is changed, the application will respect the restriction put in place. So, when we call `ScreenOrientation.lock()` and `ScreenOrientation.unlock()` what we need to do is update the value of `supportedOrientations`.
+`UIInterfaceOrientationMask.all` is the value that allows all available orientations to be available.
 
-The next piece of the puzzle becomes how do we communicate from our plugin to the `AppDelegate`?
+Next, in `AppDelegate.swift` add the following code under `var window: UIWindow?`:
 
-#### Adding an Observer to `NotificationCenter`
+```Swift
+func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+  return ScreenOrientationPlugin.supportedOrientations
+}
+```
+
+With that out of the way, let's implement locking a screen orientation! Our next step is to `guard` against any calls to the `lock` method that do not contain the `orientation` string value we need passed in (as defined by our plugin's API). Within `ScreenOrientationPlugin.swift`, update the `lock` method to match the code below:
+
+```Swift
+@objc public func lock(_ call: CAPPluginCall) {
+  guard let lockedOrientation = call.getString("orientation") else {
+    call.reject("Input option 'orientation' must be provided.")
+    return
+  }
+}
+```
+
+It's always good practice to ensure that all required input parameters have been passed, and short-circuit if they haven't. To complete the method, we need to do the following:
+
+1. Map the `orientation` value into it's corresponding `UIInterfaceOrientation` and `UIInterfaceOrientationMask` values.
+2. Update `ScreenOrientationPlugin.supportedOrientations` value.
+3. Set the "orientation" key on the iOS `UIDevice` object.
+4. Rotate the device to the locked orientation.
+
+Let's write a helper method inside our `ScreenOrientation` implementation class that will take the input parameter and return a key-value pair of the corresponding iOS enumeration values. Add the following method to `ScreenOrientation.swift`:
+
+```Swift
+ public func getOrientationEnumValues(_ orientation: String) -> Dictionary<String, Any> {
+    switch orientation {
+    case "landscape-secondary":
+      return [
+        "mask": UIInterfaceOrientationMask.landscapeRight,
+        "device": UIDeviceOrientation.landscapeRight
+      ]
+    case "landscape-primary":
+      return [
+        "mask": UIInterfaceOrientationMask.landscapeLeft,
+        "device": UIDeviceOrientation.landscapeLeft
+      ]
+    case "portrait-secondary":
+      return [
+        "mask": UIInterfaceOrientationMask.portraitUpsideDown,
+        "device": UIDeviceOrientation.portraitUpsideDown
+      ]
+    default:
+      // Case "portrait-primary"
+      return [
+        "mask": UIInterfaceOrientation.portrait,
+        "device": UIDeviceOrientation.portrait
+      ]
+    }
+  }
+```

@@ -21,4 +21,30 @@ import UIKit
     }
   }
   
+  public func getOrientationEnumValues(_ orientation: String) -> Dictionary<String, Any> {
+    switch orientation {
+    case "landscape-secondary":
+      return [
+        "mask": UIInterfaceOrientationMask.landscapeRight,
+        "device": UIDeviceOrientation.landscapeRight
+      ]
+    case "landscape-primary":
+      return [
+        "mask": UIInterfaceOrientationMask.landscapeLeft,
+        "device": UIDeviceOrientation.landscapeLeft
+      ]
+    case "portrait-secondary":
+      return [
+        "mask": UIInterfaceOrientationMask.portraitUpsideDown,
+        "device": UIDeviceOrientation.portraitUpsideDown
+      ]
+    default:
+      // Case "portrait-primary"
+      return [
+        "mask": UIInterfaceOrientation.portrait,
+        "device": UIDeviceOrientation.portrait
+      ]
+    }
+  }
+  
 }
