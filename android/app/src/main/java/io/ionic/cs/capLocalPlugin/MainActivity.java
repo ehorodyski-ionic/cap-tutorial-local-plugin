@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package io.ionic.cs.capLocalPlugin;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import com.getcapacitor.Plugin;
 
 import java.util.ArrayList;
 
-import io.ionic.starter.AppVersion.AppVersion;
+import io.ionic.cs.capLocalPlugin.plugins.ScreenOrientation.ScreenOrientationPlugin;
 
 public class MainActivity extends BridgeActivity {
   @Override
@@ -17,7 +17,7 @@ public class MainActivity extends BridgeActivity {
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
       // Additional plugins you've installed go here
-      add(AppVersion.class);
+      add(ScreenOrientationPlugin.class);
     }});
   }
 }

@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "cap-tutorial-local-plugin",
+  "appId": "io.ionic.cs.capLocalPlugin",
+  "appName": "Capacitor Local Plugin",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
