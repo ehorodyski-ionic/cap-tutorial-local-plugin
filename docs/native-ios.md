@@ -158,7 +158,7 @@ Next, wire up the `orientation` method in `SwiftOrientationPlugin.swift` to call
 }
 ```
 
-Nice and concise...I love it! You've made it this far without running your application. That was intentional on my part as the plugin would break the app since we weren't returning anything for this method up until this point. Now that we have the first plugin the application calls implemented go ahead and run the app in Xcode, either through a simulator or a device. Once the app finishes loading, you should see the following logs printed to the **Console Window** in the bottom right portion of the main Xcode pane:
+Nice and concise...I love it! You've made it this far without running your application. That was intentional on my part as the plugin would break the app since we weren't returning anything for this method up until this point. Now that we have the first plugin method the application calls implemented go ahead and run the app in Xcode, either through a simulator or a device. Once the app finishes loading, you should see the following logs printed to the **Console Window** in the bottom right portion of the main Xcode pane:
 
 ```bash
 ⚡️  To Native ->  ScreenOrientation orientation 111583311
@@ -200,7 +200,7 @@ func application(_ application: UIApplication, supportedInterfaceOrientationsFor
 }
 ```
 
-With that out of the way, let's implement locking a screen orientation! Our next step is to `guard` against any calls to the `lock` method that do not contain the `orientation` string value we need passed in (as defined by our plugin's API). Within `ScreenOrientationPlugin.swift`, update the `lock` method to match the code below:
+With that out of the way, let's implement locking a screen orientation! Our next step is to `guard` against any calls to the `lock` method that do not contain the `orientation` string value we need passed in (as defined by our plugin's API). Within `ScreenOrientationPlugin.swift` update the `lock` method to match the code below:
 
 ```Swift
 @objc public func lock(_ call: CAPPluginCall) {

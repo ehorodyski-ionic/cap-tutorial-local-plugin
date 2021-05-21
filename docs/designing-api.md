@@ -2,7 +2,7 @@
 
 The first (and most critical) step is to define an API for the `ScreenOrientation` plugin. The plugin's API is the contract that we'll adhere to when building out each platform's specific implementation.
 
-In this step we'll define the plugin API and add TypeScript definitions for it by extending Capacitor's `PluginRegistry`. This will give us the nicities TypeScript provides with code completion and type checking.
+In this step we'll define the plugin API and add TypeScript definitions for it by extending Capacitor's `PluginRegistry`. This will give us the niceties TypeScript provides with code completion and type checking.
 
 ## The `ScreenOrientation` API
 

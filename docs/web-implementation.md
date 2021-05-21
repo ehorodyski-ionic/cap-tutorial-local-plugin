@@ -69,7 +69,7 @@ The following methods will be added to the `ScreenOrientationWeb` class in `src/
 
 ### Getting the Current Orientation
 
-The Web's ScreenOrientation API method for [getting the current screen orientation](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation) is a synchronous operation that returns the current `OrientationType`, the document's current orientation andle, and an event handler to call whenever the screen changes orientation.
+The Web's ScreenOrientation API method for [getting the current screen orientation](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation) is a synchronous operation that returns the current `OrientationType`, the document's current orientation angle, and an event handler to call whenever the screen changes orientation.
 
 We've decided that we're just going to return the `OrientationType` and `angle` properties for our API:
 

@@ -51,22 +51,22 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 
-@NativePlugin
+@NativePlugin(name="ScreenOrientation")
 public class ScreenOrientationPlugin extends Plugin {
 
     @PluginMethod
     public void orientation(PluginCall call) {
-        call.success();
+        call.resolve();
     }
 
     @PluginMethod
     public void lock(PluginCall call) {
-        call.success();
+        call.resolve();
     }
 
     @PluginMethod
     public void unlock(PluginCall call) {
-        call.success();
+        call.resolve();
     }
 }
 ```
@@ -115,7 +115,7 @@ Head back to `ScreenOrientationPlugin.java` and add the following code:
 
 ```Java
 ...snip...
-@NativePlugin
+@NativePlugin(name="ScreenOrientation")
 public class ScreenOrientationPlugin extends Plugin {
 
   private ScreenOrientation implementation = new ScreenOrientation();
@@ -142,23 +142,26 @@ public JSObject getCurrentOrientation(int rotation) {
     JSObject orientationType = new JSObject();
     switch (rotation) {
         case Surface.ROTATION_90:
-            orientationType.put("type", "landscape-primary");
             orientationType.put("angle", 90);
+            orientationType.put("type", "landscape-primary");
+            return orientationType;
         case Surface.ROTATION_180:
-            orientationType.put("type", "portrait-secondary");
             orientationType.put("angle", 180);
+            orientationType.put("type", "portrait-secondary");
+            return orientationType;
         case Surface.ROTATION_270:
-            orientationType.put("type", "landscape-secondary");
             orientationType.put("angle", -90);
+            orientationType.put("type", "landscape-secondary");
+            return orientationType;
         default:
-            orientationType.put("type", "portrait-primary");
             orientationType.put("angle", 0);
+            orientationType.put("type", "portrait-primary");
+            return orientationType;
     }
-    return orientationType;
 }
 ```
 
-Unfortunately, there is no way to obtain the orientation angle through the iOS APIs. That's OK, we can derive what those values should be by playing around with the [Screen Orientation Web API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/angle). Which is exactly what I did for you 😊
+Unfortunately, there is no way to obtain the orientation angle through the Android APIs. That's OK, we can derive what those values should be by playing around with the [Screen Orientation Web API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/angle). Which is exactly what I did for you 😊
 
 Next, wire up the `orientation` method in `SwiftOrientationPlugin.swift` to call our implementation:
 
@@ -171,8 +174,100 @@ public void orientation(PluginCall call) {
             .getDefaultDisplay()
             .getRotation();
     JSObject orientation = implementation.getCurrentOrientation(rotation);
-    call.success(orientation);
+    call.resolve(orientation);
 }
 ```
 
+Note the order of the calls being made. First, we are getting the application's Capacitor bridge. Next, we get the Android Activity in which the bridge resides. Finally, we dig deeper into the `Activity` API to ultimately obtain the rotation of the device.
+
+With the first plugin method the application calls implemented go ahead and run the app in Android Studio. Once the app finishes loading, you should see the following logs printed to the **Logcat** window pane:
+
+```bash
+D/Capacitor: Registering plugin: ScreenOrientation
+...snip...
+V/Capacitor/Plugin: To native (Capacitor plugin): callbackId: 55727065, pluginId: ScreenOrientation, methodName: orientation
+V/Capacitor: callback: 55727065, pluginId: ScreenOrientation, methodName: orientation, methodData: {}
+```
+
+The exact value of `callbackId` and `callback` will be different for you, their value is just an arbitrary ID assigned to the plugin's method call instance at runtime. Nevertheless, the Android implementation of the `ScreenOrientation` plugin is registered and working! 🎉
+
+### Locking the Screen Orientation
+
+The `lock` method needs to supply an `orientation` value (as defined by our plugin's API). If a call is made missing that parameter, we should short-circuit and send a rejection message. Within `ScreenOrientationPlugin.java` update the `lock` method to match the code below:
+
+```Java
+@PluginMethod
+public void lock(PluginCall call) {
+    String orientation = call.getString("orientation");
+    if (orientation == null) {
+        call.reject("Input option 'orientation' must be provided.");
+        return;
+    }
+    call.resolve();
+}
+```
+
+In order to complete the method we need to map the `orientation` value to the appropriate `ActivityInfo` enumeration then rotate the device to the locked orientation.
+
+Let's write a method inside `ScreenOrientation.java` that will perform the mapping mentioned above:
+
+```Java
+public int getOrientationEnumValue(String orientation) {
+    switch(orientation){
+        case "portrait-primary":
+            return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        case "portrait-secondary":
+            return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+        case "landscape-primary":
+            return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        case "landscape-secondary":
+            return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+        default:
+            return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+    }
+}
+```
+
+Android supplies a method on the `Activity` that allows developers to programmatically set the requested rotation (orientation). Switch to `ScreenOrientationPlugin.java` to finish writing the `lock` method:
+
+```Java
+@PluginMethod
+public void lock(PluginCall call) {
+    String orientation = call.getString("orientation");
+    if (orientation == null) {
+        call.reject("Input option 'orientation' must be provided.");
+        return;
+    }
+    int orientationEnum = implementation.getOrientationEnumValue(orientation);
+    getBridge().getActivity().setRequestedOrientation(orientationEnum);
+    call.resolve();
+}
+```
+
+All that is left to do is implement a way to unlock the orientation.
+
+### Unlocking Screen Orientations
+
+Restoring the end user's ability to change screen orientation is extremely simple. Fill out the `unlock` method in `ScreenOrientationPlugin.java`:
+
+```Java
+@PluginMethod
+public void unlock(PluginCall call) {
+    getBridge().getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    call.resolve();
+}
+```
+
+By setting the requested orientation to `SCREEN_ORIENTATION_UNSPECIFIED` we are -- in essence -- telling the activity that we don't have a specific orientation it should be restricted to, allowing them all.
+
 ## Test it out!
+
+Compared to the iOS implementation, implementing the `ScreenOrientation` plugin for Android was a breeze! Run the app (on device or simulator) and place yourself back in the shoes of the insurance company's customer. Tap the button to lock the device in landscape mode, turn your device (or rotate the simulator), pretend signing the pad, press the "Add Signature" button and turn/rotate the device/simulator back into portrait mode. OK, that was the last time we play pretend...I promise.
+
+If you followed this tutorial step-by-step: congratulations, you built a Capacitor plugin that works across web, iOS, and Android platforms! That's a _huge_ accomplishment. Give yourself a round of applause! 👏👏👏
+
+### What about the "reusable" part?
+
+As one could imagine, priorities shift in life. In my case, other work pulled me away from this tutorial while Capacitor 3 was in active development. As I publish this section, Capacitor 3 has launched!
+
+That's a fancy way of saying I will get around to that part as I work through converting this tutorial for Capacitor 3. In the meantime, you can't go wrong reading the official [Creating a Capacitor Plugin](https://capacitorjs.com/docs/plugins/creating-plugins) guide. I'd walk you through the same steps anyhow, the only difference it is not written with my commentary.

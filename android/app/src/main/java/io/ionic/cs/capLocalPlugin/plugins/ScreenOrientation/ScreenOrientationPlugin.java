@@ -1,12 +1,15 @@
 package io.ionic.cs.capLocalPlugin.plugins.ScreenOrientation;
 
+import android.content.pm.ActivityInfo;
+
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 
-@NativePlugin
+@NativePlugin(name="ScreenOrientation")
 public class ScreenOrientationPlugin extends Plugin {
 
     private ScreenOrientation implementation = new ScreenOrientation();
@@ -19,16 +22,24 @@ public class ScreenOrientationPlugin extends Plugin {
                 .getDefaultDisplay()
                 .getRotation();
         JSObject orientation = implementation.getCurrentOrientation(rotation);
-        call.success(orientation);
+        call.resolve(orientation);
     }
 
     @PluginMethod
     public void lock(PluginCall call) {
-        call.success();
+        String orientation = call.getString("orientation");
+        if (orientation == null) {
+            call.reject("Input option 'orientation' must be provided.");
+            return;
+        }
+        int orientationEnum = implementation.getOrientationEnumValue(orientation);
+        getBridge().getActivity().setRequestedOrientation(orientationEnum);
+        call.resolve();
     }
 
     @PluginMethod
     public void unlock(PluginCall call) {
-        call.success();
+        getBridge().getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        call.resolve();
     }
 }
