@@ -1,6 +1,6 @@
 # iOS Implementation
 
-This walkthrough starts with the iOS implementation of the `ScreenOrientation` plugin, but we could have started with Android. I made an arbitrary decision to do so, we could have started with Android and it wouldn't have mattered. However, I strongly urge that when developing a Capacitor plugin the web implementation gets taken care of first before moving into native code. The web implementation sits closer to the plugin's API definition, so if any tweaks need to be made to the API it's easier to uncover them while working in the TypeScript layer.
+This walk through starts with the iOS implementation of the `ScreenOrientation` plugin, but we could have started with Android. I made an arbitrary decision to do so, we could have started with Android and it wouldn't have mattered. However, I strongly urge that when developing a Capacitor plugin the web implementation gets taken care of first before moving into native code. The web implementation sits closer to the plugin's API definition, so if any tweaks need to be made to the API it's easier to uncover them while working in the TypeScript layer.
 
 ## iOS API Documentation
 
@@ -40,7 +40,7 @@ This is a good folder structure to follow:
 
 To create this folder structure, right-click the nested **App** folder and select **New Group** and name this folder `plugins`. Right-click on the new `plugins` folder and do the same to create the `screen-orientation` folder.
 
-Click the `screen-orienation` folder and in the menu bar click **File > New > File...** Select **Swift File** and name it `ScreenOrientationPlugin.swift`. Populate the file such that it matches the API we defined:
+Click the `screen-orientation` folder and in the menu bar click **File > New > File...** Select **Swift File** and name it `ScreenOrientationPlugin.swift`. Populate the file such that it matches the API we defined:
 
 ```Swift
 //  ScreenOrientationPlugin.swift
@@ -147,7 +147,7 @@ public func getCurrentOrientation() -> Dictionary<String, Any> {
 }
 ```
 
-Unfortuantely, there is no way to obtain the orientation angle through the iOS APIs. That's OK, we can derive what those values should be by playing around with the [Screen Orientation Web API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/angle). Which is exactly what I did for you 😊
+Unfortunately, there is no way to obtain the orientation angle through the iOS APIs. That's OK, we can derive what those values should be by playing around with the [Screen Orientation Web API](https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/angle). Which is exactly what I did for you 😊
 
 Next, wire up the `orientation` method in `SwiftOrientationPlugin.swift` to call our implementation:
 
@@ -183,7 +183,7 @@ First, add a static member to `ScreenOrientationPlugin.swift`:
 ...snip...
 @objc(ScreenOrientationPlugin)
 public class ScreenOrientationPlugin: CAPPlugin {
-  private let implementtion = ScreenOrientation()
+  private let implementation = ScreenOrientation()
 
   public static var supportedOrientations = UIInterfaceOrientationMask.all
   ...snip...

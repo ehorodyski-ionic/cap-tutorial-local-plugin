@@ -1,4 +1,4 @@
-package io.ionic.cs.capLocalPlugin.plugins;
+package io.ionic.cs.capLocalPlugin.plugin;
 
 import com.getcapacitor.JSObject;
 
@@ -13,20 +13,17 @@ public class OrientationUtilities {
             case Surface.ROTATION_90:
                 orientationType.put("angle", 90);
                 orientationType.put("type", "landscape-primary");
-                return orientationType;
             case Surface.ROTATION_180:
                 orientationType.put("angle", 180);
                 orientationType.put("type", "portrait-secondary");
-                return orientationType;
             case Surface.ROTATION_270:
                 orientationType.put("angle", -90);
                 orientationType.put("type", "landscape-secondary");
-                return orientationType;
             default:
                 orientationType.put("angle", 0);
                 orientationType.put("type", "portrait-primary");
-                return orientationType;
         }
+        return orientationType;
     }
 
     public static int fromOrientationTypeToEnum(String orientation) {

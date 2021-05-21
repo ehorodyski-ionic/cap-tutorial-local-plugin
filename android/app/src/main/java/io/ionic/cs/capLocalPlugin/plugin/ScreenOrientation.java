@@ -1,4 +1,4 @@
-package io.ionic.cs.capLocalPlugin.plugins;
+package io.ionic.cs.capLocalPlugin.plugin;
 
 import android.content.pm.ActivityInfo;
 
