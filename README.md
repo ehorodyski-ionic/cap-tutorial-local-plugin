@@ -22,12 +22,7 @@ The `ScreenOrientation` plugin we will build will work across the web, iOS, and 
 
 ## Getting Started
 
-Let's create a very simple Ionic Framework + React based Capacitor application to use for this walk through. This application will just be one of the Ionic Framework's starter templates:
-
-```bash
-$ ionic start cap-tutorial-local-plugin --type=react --package-id=io.ionic.cs.capLocalPlugin
-$ cd cap-tutorial-local-plugin
-```
+Clone this repository and checkout the `start` branch. Run `npm install` at the root of the project.
 
 **Note:** Ionic Framework + React will be used to build the user interface of this application. If you are not familiar with React (or the Ionic Framework) that's OK! The concepts covered in this walk through are applicable to Capacitor applications using any TypeScript-enabled web framework.
 
