@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.ionisign",
+	"appName": "IoniSign",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

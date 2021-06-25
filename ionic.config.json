@@ -1,0 +1,7 @@
+{
+  "name": "ionsign",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
